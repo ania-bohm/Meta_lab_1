@@ -19,6 +19,46 @@ public class Loader {
         loadedDemand = new ArrayList<>();
     }
 
+    public int getLoadedDimension() {
+        return loadedDimension;
+    }
+
+    public void setLoadedDimension(int loadedDimension) {
+        this.loadedDimension = loadedDimension;
+    }
+
+    public int getLoadedCapacity() {
+        return loadedCapacity;
+    }
+
+    public void setLoadedCapacity(int loadedCapacity) {
+        this.loadedCapacity = loadedCapacity;
+    }
+
+    public List<Integer> getLoadedCoordX() {
+        return loadedCoordX;
+    }
+
+    public void setLoadedCoordX(List<Integer> loadedCoordX) {
+        this.loadedCoordX = loadedCoordX;
+    }
+
+    public List<Integer> getLoadedCoordY() {
+        return loadedCoordY;
+    }
+
+    public void setLoadedCoordY(List<Integer> loadedCoordY) {
+        this.loadedCoordY = loadedCoordY;
+    }
+
+    public List<Integer> getLoadedDemand() {
+        return loadedDemand;
+    }
+
+    public void setLoadedDemand(List<Integer> loadedDemand) {
+        this.loadedDemand = loadedDemand;
+    }
+
     public void load(String filename)
     {
         try {
@@ -30,29 +70,40 @@ public class Loader {
             loadedCapacity = scanner.nextInt();
             System.out.println("Capacity: " + loadedCapacity);
 
-            // loading coords
-            while (scanner.hasNextLine() && lineNumber < loadedDimension) {
-                loadedCoordX.add(scanner.nextInt());
-                System.out.println("X: " + loadedCoordX.get(lineNumber));
-                loadedCoordY.add(scanner.nextInt());
-                System.out.println("Y: " + loadedCoordY.get(lineNumber));
-                lineNumber++;
-            }
-
-            lineNumber = 0;
-
-            // loading demand
-            while (scanner.hasNextLine() && lineNumber < loadedDimension) {
-                loadedDemand.add(scanner.nextInt());
-                System.out.println("Demand: " + loadedDemand.get(lineNumber));
-                lineNumber++;
-            }
+            scanner = this.scanCoords(scanner, lineNumber);
+            scanner = this.scanDemand(scanner, lineNumber);
 
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    public Scanner scanCoords(Scanner scanner, int lineNumber)
+    {
+        while (scanner.hasNextLine() && lineNumber < loadedDimension) {
+            // omitting ordinal number
+            scanner.nextInt();
+            loadedCoordX.add(scanner.nextInt());
+            System.out.println("X: " + loadedCoordX.get(lineNumber));
+            loadedCoordY.add(scanner.nextInt());
+            System.out.println("Y: " + loadedCoordY.get(lineNumber));
+            lineNumber++;
+        }
+        return scanner;
+    }
+
+    public Scanner scanDemand(Scanner scanner, int lineNumber)
+    {
+        while (scanner.hasNextLine() && lineNumber < loadedDimension) {
+            // omitting ordinal number
+            scanner.nextInt();
+            loadedDemand.add(scanner.nextInt());
+            System.out.println("Demand: " + loadedDemand.get(lineNumber));
+            lineNumber++;
+        }
+        return scanner;
     }
 
 
