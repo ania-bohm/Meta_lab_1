@@ -8,15 +8,15 @@ public class Loader {
 
     private int loadedDimension;
     private int loadedCapacity;
-    private List<Integer> loadedCoordX;
-    private List<Integer> loadedCoordY;
-    private List<Integer> loadedDemand;
+    private List<Integer> loadedCoordXArray;
+    private List<Integer> loadedCoordYArray;
+    private List<Integer> loadedDemandArray;
+    private float[][] distanceMatrix;
 
-    public Loader()
-    {
-        loadedCoordX = new ArrayList<>();
-        loadedCoordY = new ArrayList<>();
-        loadedDemand = new ArrayList<>();
+    public Loader() {
+        loadedCoordXArray = new ArrayList<>();
+        loadedCoordYArray = new ArrayList<>();
+        loadedDemandArray = new ArrayList<>();
     }
 
     public int getLoadedDimension() {
@@ -35,32 +35,31 @@ public class Loader {
         this.loadedCapacity = loadedCapacity;
     }
 
-    public List<Integer> getLoadedCoordX() {
-        return loadedCoordX;
+    public List<Integer> getLoadedCoordXArray() {
+        return loadedCoordXArray;
     }
 
-    public void setLoadedCoordX(List<Integer> loadedCoordX) {
-        this.loadedCoordX = loadedCoordX;
+    public void setLoadedCoordXArray(List<Integer> loadedCoordXArray) {
+        this.loadedCoordXArray = loadedCoordXArray;
     }
 
-    public List<Integer> getLoadedCoordY() {
-        return loadedCoordY;
+    public List<Integer> getLoadedCoordYArray() {
+        return loadedCoordYArray;
     }
 
-    public void setLoadedCoordY(List<Integer> loadedCoordY) {
-        this.loadedCoordY = loadedCoordY;
+    public void setLoadedCoordYArray(List<Integer> loadedCoordYArray) {
+        this.loadedCoordYArray = loadedCoordYArray;
     }
 
-    public List<Integer> getLoadedDemand() {
-        return loadedDemand;
+    public List<Integer> getLoadedDemandArray() {
+        return loadedDemandArray;
     }
 
-    public void setLoadedDemand(List<Integer> loadedDemand) {
-        this.loadedDemand = loadedDemand;
+    public void setLoadedDemandArray(List<Integer> loadedDemandArray) {
+        this.loadedDemandArray = loadedDemandArray;
     }
 
-    public void load(String filename)
-    {
+    public void load(String filename) {
         try {
             File file = new File(filename + ".txt");
             Scanner scanner = new Scanner(file);
@@ -80,31 +79,39 @@ public class Loader {
         }
     }
 
-    public Scanner scanCoords(Scanner scanner, int lineNumber)
-    {
+    public Scanner scanCoords(Scanner scanner, int lineNumber) {
         while (scanner.hasNextLine() && lineNumber < loadedDimension) {
             // omitting ordinal number
             scanner.nextInt();
-            loadedCoordX.add(scanner.nextInt());
-            System.out.println("X: " + loadedCoordX.get(lineNumber));
-            loadedCoordY.add(scanner.nextInt());
-            System.out.println("Y: " + loadedCoordY.get(lineNumber));
+            loadedCoordXArray.add(scanner.nextInt());
+            System.out.println("X: " + loadedCoordXArray.get(lineNumber));
+            loadedCoordYArray.add(scanner.nextInt());
+            System.out.println("Y: " + loadedCoordYArray.get(lineNumber));
             lineNumber++;
         }
         return scanner;
     }
 
-    public Scanner scanDemand(Scanner scanner, int lineNumber)
-    {
+    public Scanner scanDemand(Scanner scanner, int lineNumber) {
         while (scanner.hasNextLine() && lineNumber < loadedDimension) {
             // omitting ordinal number
             scanner.nextInt();
-            loadedDemand.add(scanner.nextInt());
-            System.out.println("Demand: " + loadedDemand.get(lineNumber));
+            loadedDemandArray.add(scanner.nextInt());
+            System.out.println("Demand: " + loadedDemandArray.get(lineNumber));
             lineNumber++;
         }
         return scanner;
     }
 
+    public float[][] calculateDistance() {
+        distanceMatrix = new float[loadedDimension][loadedDimension];
+
+        for (int i = 0; i < loadedDimension; i++) {
+            for (int j = 0; j < loadedDimension; j++) {
+                distanceMatrix[i][j] = (float) Math.sqrt(Math.pow((loadedCoordXArray.get(i) - loadedCoordXArray.get(j)), 2) + Math.pow((loadedCoordYArray.get(i) - loadedCoordYArray.get(j)), 2));
+            }
+        }
+        return distanceMatrix;
+    }
 
 }
