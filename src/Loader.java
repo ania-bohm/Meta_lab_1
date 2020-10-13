@@ -84,7 +84,7 @@ public class Loader {
             // omitting ordinal number
             scanner.nextInt();
             loadedCoordXArray.add(scanner.nextInt());
-            System.out.println("X: " + loadedCoordXArray.get(lineNumber));
+            System.out.print("X: " + loadedCoordXArray.get(lineNumber) + ", ");
             loadedCoordYArray.add(scanner.nextInt());
             System.out.println("Y: " + loadedCoordYArray.get(lineNumber));
             lineNumber++;
@@ -101,17 +101,6 @@ public class Loader {
             lineNumber++;
         }
         return scanner;
-    }
-
-    public float[][] calculateDistance() {
-        distanceMatrix = new float[loadedDimension][loadedDimension];
-
-        for (int i = 0; i < loadedDimension; i++) {
-            for (int j = 0; j < loadedDimension; j++) {
-                distanceMatrix[i][j] = (float) Math.sqrt(Math.pow((loadedCoordXArray.get(i) - loadedCoordXArray.get(j)), 2) + Math.pow((loadedCoordYArray.get(i) - loadedCoordYArray.get(j)), 2));
-            }
-        }
-        return distanceMatrix;
     }
 
 }

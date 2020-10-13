@@ -1,3 +1,4 @@
+import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,10 @@ public class Problem {
     private float[][] distanceMatrix;
     private List<Integer> demandArray;
 
-    public Problem(int dimension, int capacity, float[][] distanceMatrix, List<Integer> demandArray) {
+    public Problem(int dimension, int capacity, List<Integer> demandArray) {
         this.dimension = dimension;
         this.capacity = capacity;
-        this.distanceMatrix = distanceMatrix;
+        this.distanceMatrix = new float[dimension][dimension];
         this.demandArray = demandArray;
     }
 
@@ -47,4 +48,29 @@ public class Problem {
         this.demandArray = demandArray;
     }
 
+    public float[][] calculateDistance(List<Integer> coordXArray, List<Integer> coordYArray) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                distanceMatrix[i][j] = (float) Math.sqrt(Math.pow((coordXArray.get(i) - coordXArray.get(j)), 2) + Math.pow((coordYArray.get(i) - coordYArray.get(j)), 2));
+            }
+        }
+        return distanceMatrix;
+    }
+
+    public void printDistanceMatrix() {
+        for (int i = 0; i < distanceMatrix.length; i++) {
+            for (int j = 0; j < distanceMatrix.length; j++) {
+                System.out.print((int) distanceMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public int[] generateEmptyLocationMatrix() {
+        int[] locationMatrix = new int[dimension - 1];
+        for (int i = 0; i < locationMatrix.length - 1; i++) {
+            locationMatrix[i] = 0;
+        }
+        return locationMatrix;
+    }
 }
