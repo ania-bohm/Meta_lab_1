@@ -1,6 +1,8 @@
 import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 public class Problem {
 
@@ -72,5 +74,41 @@ public class Problem {
             locationMatrix[i] = 0;
         }
         return locationMatrix;
+    }
+
+    public List<Integer> generateLocationArray() {
+        List<Integer> locationArray = new ArrayList<>();
+        for (int i = 1; i < dimension; i++) {
+            locationArray.add(i);
+        }
+        return locationArray;
+    }
+
+    public Individual generateRandomIndividual() {
+        Individual individual = new Individual();
+        List<Integer> locationArray = generateLocationArray();
+        List<List<Integer>> routeArray = new ArrayList<>();
+        int i = 0;
+        Collections.shuffle(locationArray);
+
+        while (!locationArray.isEmpty()) {
+            if (i >= routeArray.size()) {
+                routeArray.add(new ArrayList<>());
+                routeArray.get(i).add(locationArray.get(0));
+                locationArray.remove(0);
+            } else if ((demandArray.get(locationArray.get(0)) + individual.calculateRouteDemand(routeArray.get(i), this)) <= capacity) {
+                routeArray.get(i).add(locationArray.get(0));
+                locationArray.remove(0);
+            } else {
+                i++;
+            }
+        }
+        individual.setRouteArray(routeArray);
+        if (individual.isIndividualCorrect(this)) {
+            System.out.println("Generating random individual completed successfully!");
+            return individual;
+        } else {
+            return null;
+        }
     }
 }
