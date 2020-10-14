@@ -57,4 +57,19 @@ public class Individual {
 
         return true;
     }
+
+    // fitness function
+    public int calculateIndividualCost(Problem problem) {
+        float wholeRouteCost = 0;
+        int previousLocation;
+        for (int i = 0; i < routeArray.size(); i++) {
+            previousLocation = 0;
+            for (int j = 0; j < routeArray.get(i).size(); j++) {
+                wholeRouteCost += problem.getDistanceMatrix()[previousLocation][routeArray.get(i).get(j)];
+                previousLocation = routeArray.get(i).get(j);
+            }
+            wholeRouteCost += problem.getDistanceMatrix()[0][previousLocation];
+        }
+        return (int) wholeRouteCost;
+    }
 }

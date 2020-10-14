@@ -14,9 +14,12 @@ public class Main {
 //        problem.calculateDistance(loader.getLoadedCoordXArray(), loader.getLoadedCoordYArray());
 //        problem.printDistanceMatrix();
 
-        //List<Integer> demandArray = new ArrayList<>(Arrays.asList(0, 3, 6, 9, 4));
-        List<Integer> demandArray = new ArrayList<>(Arrays.asList(0, 4, 4, 6, 6));
+        List<Integer> coordXArray = new ArrayList<>(Arrays.asList(0, 4, 6, 6, 11));
+        List<Integer> coordYArray = new ArrayList<>(Arrays.asList(0, 4, 6, 2, 4));
+        List<Integer> demandArray = new ArrayList<>(Arrays.asList(0, 5, 4, 8, 2));
+        //List<Integer> demandArray = new ArrayList<>(Arrays.asList(0, 4, 4, 6, 6));
         Problem problem = new Problem(5, 10, demandArray);
+        problem.calculateDistance(coordXArray, coordYArray);
 
 //        Individual correctIndi = new Individual();
 //        List<List<Integer>> correctRouteArray = new ArrayList<>();
@@ -48,7 +51,14 @@ public class Main {
 //        System.out.println("2." + incorrectIndi.isIndividualCorrect(problem));
 //        System.out.println(incorrectIndi.getRouteArray().toString());
 
-        Individual randomIndividual = problem.generateRandomIndividual();
+        Individual randomIndividual = Methods.generateRandomIndividual(problem);
         System.out.println(randomIndividual.getRouteArray().toString());
+
+        Individual greedyIndividual = Methods.generateGreedyIndividual(problem);
+        System.out.println(greedyIndividual.getRouteArray().toString());
+        
+        System.out.println("Trasa random: " + randomIndividual.calculateIndividualCost(problem));
+        System.out.println("Trasa greedy: " + greedyIndividual.calculateIndividualCost(problem));
+
     }
 }
