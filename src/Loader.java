@@ -11,7 +11,6 @@ public class Loader {
     private List<Integer> loadedCoordXArray;
     private List<Integer> loadedCoordYArray;
     private List<Integer> loadedDemandArray;
-    private float[][] distanceMatrix;
 
     public Loader() {
         loadedCoordXArray = new ArrayList<>();

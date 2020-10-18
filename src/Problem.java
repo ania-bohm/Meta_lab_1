@@ -1,8 +1,5 @@
-import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 public class Problem {
 
@@ -76,7 +73,7 @@ public class Problem {
         return locationMatrix;
     }
 
-    public List<Integer> generateLocationArray() {
+    public List<Integer> generateLocationArrayList() {
         List<Integer> locationArray = new ArrayList<>();
         for (int i = 1; i < dimension; i++) {
             locationArray.add(i);
@@ -84,16 +81,61 @@ public class Problem {
         return locationArray;
     }
 
-    public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray, List<Integer> excludedLocationArray) {
+    public Integer[] generateLocationArray() {
+        Integer[] locationArray = new Integer[dimension - 1];
+        for (int i = 0; i < dimension - 1; i++) {
+            locationArray[i] = i + 1;
+        }
+        return locationArray;
+    }
+
+//    public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray, List<Integer> excludedLocationArray) {
+//        float smallestDistance = Float.MAX_VALUE;
+//        int nearestLocation = -1;
+//        for (int i = 1; i < distanceMatrix.length; i++) {
+//            if (distanceMatrix[startLocation][i] <= smallestDistance && startLocation != i && availableLocationArray.contains(i) && !excludedLocationArray.contains(i)) {
+//                smallestDistance = distanceMatrix[startLocation][i];
+//                nearestLocation = i;
+//            }
+//        }
+//        return nearestLocation;
+//    }
+
+    public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray) {
         float smallestDistance = Float.MAX_VALUE;
         int nearestLocation = -1;
-        for (int i = 0; i < distanceMatrix.length; i++) {
-            if (distanceMatrix[startLocation][i] <= smallestDistance && startLocation != i && availableLocationArray.contains(i) && !excludedLocationArray.contains(i)) {
+        for (int i = 1; i < distanceMatrix.length; i++) {
+            if (distanceMatrix[startLocation][i] <= smallestDistance && startLocation != i && availableLocationArray.contains(i)) {
                 smallestDistance = distanceMatrix[startLocation][i];
                 nearestLocation = i;
             }
         }
         return nearestLocation;
+    }
+
+    public float calculateFitness(Individual individual) {
+        float currentDistance = 0;
+        float wholeDistance = 0;
+        int currentDemand = 0;
+        int previousLocation = 0;
+        for (int i = 0; i < individual.getRouteArray().length; i++) {
+            currentDemand += demandArray.get(individual.getRouteArray()[i]);
+            if (currentDemand <= capacity) {
+                currentDistance += distanceMatrix[previousLocation][individual.getRouteArray()[i]];
+                previousLocation = individual.getRouteArray()[i];
+            } else {
+                currentDistance += distanceMatrix[previousLocation][0];
+                wholeDistance += currentDistance;
+                currentDemand = demandArray.get(individual.getRouteArray()[i]);
+                currentDistance = distanceMatrix[0][individual.getRouteArray()[i]];
+                previousLocation = individual.getRouteArray()[i];
+            }
+            if (i == individual.getRouteArray().length - 1) {
+                currentDistance += distanceMatrix[individual.getRouteArray()[i]][0];
+                wholeDistance += currentDistance;
+            }
+        }
+        return wholeDistance;
     }
 
 }

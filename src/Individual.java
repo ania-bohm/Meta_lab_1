@@ -1,75 +1,80 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Individual {
+    private Integer[] routeArray;
 
-    private List<List<Integer>> routeArray;
-
-    public Individual() {
-        routeArray = new ArrayList<>();
+    public Individual(int dimension) {
+        routeArray = new Integer[dimension - 1];
     }
 
-    public List<List<Integer>> getRouteArray() {
+    public Integer[] getRouteArray() {
         return routeArray;
     }
 
-    public void setRouteArray(List<List<Integer>> routeArray) {
+    public void setRouteArray(Integer[] routeArray) {
         this.routeArray = routeArray;
     }
 
-    public boolean isIndividualCorrect(Problem problem) {
-        // checking capacity constraint
-        for (int i = 0; i < routeArray.size(); i++) {
-            if (this.calculateRouteDemand(routeArray.get(i), problem) > problem.getCapacity()) {
-                return false;
-            }
-        }
-        // checking if all locations are included (only once)
-        if (!checkLocationUniqueness(problem)) {
-            return false;
-        }
-
-        return true;
+    public Individual generateRandomIndividual(Problem problem) {
+        Integer[] locationArray = problem.generateLocationArray();
+        Collections.shuffle(Arrays.asList(locationArray));
+        routeArray = locationArray;
+        return this;
     }
 
-    public int calculateRouteDemand(List<Integer> routeList, Problem problem) {
-        int wholeRouteDemand = 0;
-        for (int i = 0; i < routeList.size(); i++) {
-            wholeRouteDemand += problem.getDemandArray().get(routeList.get(i));
+    public void printRouteArray() {
+        System.out.print("[");
+        for (int i = 0; i < routeArray.length; i++) {
+            if (i != routeArray.length - 1) {
+                System.out.print(routeArray[i] + ", ");
+            } else {
+                System.out.print(routeArray[i]);
+            }
         }
-        return wholeRouteDemand;
+        System.out.print("]\n");
     }
 
-    public boolean checkLocationUniqueness(Problem problem) {
-        int[] locationArray = problem.generateEmptyLocationMatrix();
+    public Individual orderedCrossover(Individual parentIndividual) {
+        int routeArrayLength = this.routeArray.length;
+        Individual childIndividual = new Individual(routeArrayLength + 1);
+        Integer[] childRouteArray = new Integer[routeArrayLength];
+        List<Integer> usedLocations = new ArrayList<>();
+        Random random = new Random();
+        
+        int rangeStart = random.nextInt(routeArrayLength);
+        int rangeEnd = random.nextInt(routeArrayLength);
 
-        for (int i = 0; i < routeArray.size(); i++) {
-            for (int j = 0; j < routeArray.get(i).size(); j++) {
-                locationArray[routeArray.get(i).get(j) - 1]++;
+        if (rangeEnd < rangeStart) {
+            int rangeTemp = rangeEnd;
+            rangeEnd = rangeStart;
+            rangeStart = rangeTemp;
+        }
+
+        for (int i = rangeStart; i <= rangeEnd; i++) {
+            childRouteArray[i] = this.getRouteArray()[i];
+            usedLocations.add(childRouteArray[i]);
+        }
+
+        for (int i = 0; i < rangeStart; i++) {
+            for (int j = 0; j < routeArrayLength; j++) {
+                if (!usedLocations.contains(parentIndividual.getRouteArray()[j])) {
+                    childRouteArray[i] = parentIndividual.getRouteArray()[j];
+                    usedLocations.add(childRouteArray[i]);
+                    break;
+                }
             }
         }
 
-        for (int i = 0; i < locationArray.length; i++) {
-            if (locationArray[i] != 1) {
-                return false;
+        for (int i = rangeEnd + 1; i < routeArrayLength; i++) {
+            for (int j = 0; j < routeArrayLength; j++) {
+                if (!usedLocations.contains(parentIndividual.getRouteArray()[j])) {
+                    childRouteArray[i] = parentIndividual.getRouteArray()[j];
+                    usedLocations.add(childRouteArray[i]);
+                    break;
+                }
             }
         }
-
-        return true;
-    }
-
-    // fitness function
-    public int calculateIndividualCost(Problem problem) {
-        float wholeRouteCost = 0;
-        int previousLocation;
-        for (int i = 0; i < routeArray.size(); i++) {
-            previousLocation = 0;
-            for (int j = 0; j < routeArray.get(i).size(); j++) {
-                wholeRouteCost += problem.getDistanceMatrix()[previousLocation][routeArray.get(i).get(j)];
-                previousLocation = routeArray.get(i).get(j);
-            }
-            wholeRouteCost += problem.getDistanceMatrix()[0][previousLocation];
-        }
-        return (int) wholeRouteCost;
+        childIndividual.setRouteArray(childRouteArray);
+        return childIndividual;
     }
 }

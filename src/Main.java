@@ -21,6 +21,14 @@ public class Main {
         Problem problem = new Problem(5, 10, demandArray);
         problem.calculateDistance(coordXArray, coordYArray);
 
+        Individual randomIndividual = new Individual(problem.getDimension());
+        randomIndividual = randomIndividual.generateRandomIndividual(problem);
+        randomIndividual.printRouteArray();
+
+        Individual greedyIndividual = GreedyAlgorithm.generateGreedyIndividual(problem, 2);
+        greedyIndividual.printRouteArray();
+        System.out.println(problem.calculateFitness(greedyIndividual));
+
 //        Individual correctIndi = new Individual();
 //        List<List<Integer>> correctRouteArray = new ArrayList<>();
 //        correctRouteArray.add(new ArrayList<>());
@@ -51,14 +59,14 @@ public class Main {
 //        System.out.println("2." + incorrectIndi.isIndividualCorrect(problem));
 //        System.out.println(incorrectIndi.getRouteArray().toString());
 
-        Individual randomIndividual = Methods.generateRandomIndividual(problem);
-        System.out.println(randomIndividual.getRouteArray().toString());
-
-        Individual greedyIndividual = Methods.generateGreedyIndividual(problem);
-        System.out.println(greedyIndividual.getRouteArray().toString());
-        
-        System.out.println("Trasa random: " + randomIndividual.calculateIndividualCost(problem));
-        System.out.println("Trasa greedy: " + greedyIndividual.calculateIndividualCost(problem));
+//        Individual randomIndividual = Methods.generateRandomIndividual(problem);
+//        System.out.println(randomIndividual.getRouteArray().toString());
+//
+//        Individual greedyIndividual = Methods.generateGreedyIndividual(problem);
+//        System.out.println(greedyIndividual.getRouteArray().toString());
+//
+//        System.out.println("Cost of random: " + randomIndividual.calculateIndividualCost(problem));
+//        System.out.println("Cost of greedy: " + greedyIndividual.calculateIndividualCost(problem));
 
     }
 }
