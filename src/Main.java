@@ -28,6 +28,9 @@ public class Main {
         Individual greedyIndividual = GreedyAlgorithm.generateGreedyIndividual(problem, 2);
         greedyIndividual.printRouteArray();
         System.out.println(problem.calculateFitness(greedyIndividual));
+        greedyIndividual.inversion();
+        greedyIndividual.printRouteArray();
+        System.out.println(problem.calculateFitness(greedyIndividual));
 
 //        Individual correctIndi = new Individual();
 //        List<List<Integer>> correctRouteArray = new ArrayList<>();

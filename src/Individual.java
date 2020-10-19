@@ -40,7 +40,7 @@ public class Individual {
         Integer[] childRouteArray = new Integer[routeArrayLength];
         List<Integer> usedLocations = new ArrayList<>();
         Random random = new Random();
-        
+
         int rangeStart = random.nextInt(routeArrayLength);
         int rangeEnd = random.nextInt(routeArrayLength);
 
@@ -76,5 +76,51 @@ public class Individual {
         }
         childIndividual.setRouteArray(childRouteArray);
         return childIndividual;
+    }
+
+    public Individual swap() {
+        Random random = new Random();
+        int firstPosition;
+        int secondPosition;
+        int temp;
+
+        firstPosition = random.nextInt(routeArray.length);
+        secondPosition = random.nextInt(routeArray.length);
+
+        temp = routeArray[firstPosition];
+        routeArray[firstPosition] = routeArray[secondPosition];
+        routeArray[secondPosition] = temp;
+
+        return this;
+    }
+
+    public Individual inversion() {
+        Random random = new Random();
+        int firstPosition;
+        int secondPosition;
+        int temp;
+        int range;
+
+        firstPosition = random.nextInt(routeArray.length);
+        secondPosition = random.nextInt(routeArray.length);
+
+        if (firstPosition > secondPosition) {
+            temp = firstPosition;
+            firstPosition = secondPosition;
+            secondPosition = temp;
+        }
+
+        if (firstPosition != secondPosition) {
+            range = secondPosition - firstPosition + 1;
+            Integer[] tempArray = new Integer[range];
+            for (int i = firstPosition; i <= secondPosition; i++) {
+                tempArray[i - firstPosition] = routeArray[i];
+            }
+            for (int i = range; i > 0; i--) {
+                routeArray[firstPosition] = tempArray[i - 1];
+                firstPosition++;
+            }
+        }
+        return this;
     }
 }
