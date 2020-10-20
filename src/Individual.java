@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Individual {
     private Integer[] routeArray;
+    private float fitness;
 
     public Individual(int dimension) {
         routeArray = new Integer[dimension - 1];
@@ -13,6 +14,14 @@ public class Individual {
 
     public void setRouteArray(Integer[] routeArray) {
         this.routeArray = routeArray;
+    }
+
+    public float getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(float fitness) {
+        this.fitness = fitness;
     }
 
     public Individual generateRandomIndividual(Problem problem) {
@@ -78,18 +87,66 @@ public class Individual {
         return childIndividual;
     }
 
-    public Individual swap() {
+    public Individual partiallyMatchedCrossover(Individual parentIndividual) {
+        Individual childIndividual = new Individual(this.routeArray.length + 1);
+        Integer[] childRouteArray = new Integer[this.routeArray.length];
+        Random random = new Random();
+        HashMap<Integer, Integer> mappedLocations = new HashMap<>();
+
+        int rangeStart = random.nextInt(this.routeArray.length);
+        int rangeEnd = random.nextInt(this.routeArray.length);
+
+        if (rangeEnd < rangeStart) {
+            int rangeTemp = rangeEnd;
+            rangeEnd = rangeStart;
+            rangeStart = rangeTemp;
+        }
+
+        if (rangeStart != rangeEnd) {
+            for (int i = rangeStart; i <= rangeEnd; i++) {
+                mappedLocations.put(parentIndividual.routeArray[i], routeArray[i]);
+            }
+            for (int i = 0; i < rangeStart; i++) {
+                if (mappedLocations.containsKey(routeArray[i])) {
+                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
+                } else {
+                    childRouteArray[i] = routeArray[i];
+                }
+            }
+            for (int i = rangeStart; i <= rangeEnd; i++) {
+                childRouteArray[i] = parentIndividual.routeArray[i];
+            }
+
+            for (int i = rangeEnd + 1; i < routeArray.length; i++) {
+                if (mappedLocations.containsKey(routeArray[i])) {
+                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
+                } else {
+                    childRouteArray[i] = routeArray[i];
+                }
+            }
+
+            childIndividual.setRouteArray(childRouteArray);
+            return childIndividual;
+        }
+        return this;
+    }
+
+    public Individual swap(float pm) {
         Random random = new Random();
         int firstPosition;
         int secondPosition;
         int temp;
 
-        firstPosition = random.nextInt(routeArray.length);
-        secondPosition = random.nextInt(routeArray.length);
+        for (int i = 0; i < routeArray.length; i++) {
+            if (random.nextFloat() < pm) {
+                firstPosition = i;
+                secondPosition = random.nextInt(routeArray.length);
 
-        temp = routeArray[firstPosition];
-        routeArray[firstPosition] = routeArray[secondPosition];
-        routeArray[secondPosition] = temp;
+                temp = routeArray[firstPosition];
+                routeArray[firstPosition] = routeArray[secondPosition];
+                routeArray[secondPosition] = temp;
+            }
+        }
 
         return this;
     }

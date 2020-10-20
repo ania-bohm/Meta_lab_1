@@ -64,9 +64,9 @@ public class Loader {
             Scanner scanner = new Scanner(file);
             int lineNumber = 0;
             loadedDimension = scanner.nextInt();
-            System.out.println("Dimension: " + loadedDimension);
+            //System.out.println("Dimension: " + loadedDimension);
             loadedCapacity = scanner.nextInt();
-            System.out.println("Capacity: " + loadedCapacity);
+            //System.out.println("Capacity: " + loadedCapacity);
 
             scanner = this.scanCoords(scanner, lineNumber);
             scanner = this.scanDemand(scanner, lineNumber);
@@ -83,9 +83,9 @@ public class Loader {
             // omitting ordinal number
             scanner.nextInt();
             loadedCoordXArray.add(scanner.nextInt());
-            System.out.print("X: " + loadedCoordXArray.get(lineNumber) + ", ");
+            //System.out.print("X: " + loadedCoordXArray.get(lineNumber) + ", ");
             loadedCoordYArray.add(scanner.nextInt());
-            System.out.println("Y: " + loadedCoordYArray.get(lineNumber));
+            //System.out.println("Y: " + loadedCoordYArray.get(lineNumber));
             lineNumber++;
         }
         return scanner;
@@ -96,7 +96,7 @@ public class Loader {
             // omitting ordinal number
             scanner.nextInt();
             loadedDemandArray.add(scanner.nextInt());
-            System.out.println("Demand: " + loadedDemandArray.get(lineNumber));
+            //System.out.println("Demand: " + loadedDemandArray.get(lineNumber));
             lineNumber++;
         }
         return scanner;
