@@ -107,22 +107,32 @@ public class Individual {
                 mappedLocations.put(parentIndividual.routeArray[i], routeArray[i]);
             }
             for (int i = 0; i < rangeStart; i++) {
-                if (mappedLocations.containsKey(routeArray[i])) {
-                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
-                } else {
-                    childRouteArray[i] = routeArray[i];
+                int temp = routeArray[i];
+                while (mappedLocations.containsKey(temp)) {
+                    temp = mappedLocations.get(temp);
                 }
+                childRouteArray[i] = temp;
+//                if (mappedLocations.containsKey(routeArray[i])) {
+//                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
+//                } else {
+//                    childRouteArray[i] = routeArray[i];
+//                }
             }
             for (int i = rangeStart; i <= rangeEnd; i++) {
                 childRouteArray[i] = parentIndividual.routeArray[i];
             }
 
             for (int i = rangeEnd + 1; i < routeArray.length; i++) {
-                if (mappedLocations.containsKey(routeArray[i])) {
-                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
-                } else {
-                    childRouteArray[i] = routeArray[i];
+                int temp = routeArray[i];
+                while (mappedLocations.containsKey(temp)) {
+                    temp = mappedLocations.get(temp);
                 }
+                childRouteArray[i] = temp;
+//                if (mappedLocations.containsKey(routeArray[i])) {
+//                    childRouteArray[i] = mappedLocations.get(routeArray[i]);
+//                } else {
+//                    childRouteArray[i] = routeArray[i];
+//                }
             }
 
             childIndividual.setRouteArray(childRouteArray);

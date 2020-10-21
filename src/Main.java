@@ -1,17 +1,20 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Loader loader = new Loader();
-        loader.load("test");
-        Problem problem = new Problem(
-                loader.getLoadedDimension(),
-                loader.getLoadedCapacity(),
-                loader.getLoadedDemandArray());
-        problem.calculateDistance(loader.getLoadedCoordXArray(), loader.getLoadedCoordYArray());
+    public static void main(String[] args) throws IOException {
+//        Loader loader = new Loader();
+//        loader.load("test");
+//        Problem problem = new Problem(
+//                loader.getLoadedDimension(),
+//                loader.getLoadedCapacity(),
+//                loader.getLoadedDemandArray());
+//        problem.calculateDistance(loader.getLoadedCoordXArray(), loader.getLoadedCoordYArray());
         // problem.printDistanceMatrix();
 
 //        List<Integer> coordXArray = new ArrayList<>(Arrays.asList(0, 4, 6, 6, 11));
@@ -46,10 +49,19 @@ public class Main {
 //        populationGreedy.populateGreedy(problem);
 //        populationGreedy.printPopulation();
 
-        EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.01f, 0.1f, 5, problem);
-        //selection: 1 - tour, 2 - roulette, crossover: 1 - ox, 2 - pmx, mutation: 1 - swap, 2 - inversion
-        Population population = ea.startEvolution(2, 2, 2);
-        population.printPopulation();
-        System.out.println(population.findBestIndividual().getFitness());
+//        File file = new File("average.csv");
+//        file.createNewFile();
+//        PrintWriter average = new PrintWriter("average.csv");
+//
+//        EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.01f, 0.1f, 5, problem);
+//        //selection: 1 - tour, 2 - roulette, crossover: 1 - ox, 2 - pmx, mutation: 1 - swap, 2 - inversion
+//        Individual bestIndividual = ea.startEvolution(2, 2, 2, "result", average, 0);
+//        //population.printPopulation();
+//        System.out.println(bestIndividual.getFitness());
+//
+//        average.close();
+
+        Automat testAuto = new Automat(10);
+        testAuto.runEaResearch("test");
     }
 }

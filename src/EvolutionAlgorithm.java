@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class EvolutionAlgorithm extends Algorithm {
@@ -64,14 +67,31 @@ public class EvolutionAlgorithm extends Algorithm {
     }
 
     //selection: 1 - tour, 2 - roulette, crossover: 1 - ox, 2 - pmx, mutation: 1 - swap, 2 - inversion
-    public Population startEvolution(int selectionType, int crossoverType, int mutationType) {
+    public Individual startEvolution(int selectionType, int crossoverType, int mutationType, String saveFileName, PrintWriter avg, int j) throws IOException {
         int iterator = 0;
         Random random = new Random();
+
         Population population = initializePopulation();
         population.calculatePopulationFitness(problem);
+        Individual bestIndividual = population.findBestIndividual();
+
+//        File file = new File(j + "_" + saveFileName + ".csv");
+//        file.createNewFile();
+//
+//        PrintWriter save = new PrintWriter(j + "_" + saveFileName + ".csv");
 
         while (iterator != numberOfGenerations) {
             Population nextPopulation = new Population(population.getPopulationSize());
+
+            // finding new best individual in population
+            if (population.findBestIndividual().getFitness() < bestIndividual.getFitness()) {
+                bestIndividual.setRouteArray(population.findBestIndividual().getRouteArray());
+                bestIndividual.setFitness(population.findBestIndividual().getFitness());
+            }
+
+//            save.println(iterator + "; " + population.findBestIndividual().getFitness() + "; "
+//                    + population.averageFitness() + "; " + population.findWorstIndividual().getFitness() + "; "
+//                    + bestIndividual.getFitness());
 
             for (int i = 0; i < populationSize; i++) {
                 Individual firstParent;
@@ -113,7 +133,9 @@ public class EvolutionAlgorithm extends Algorithm {
             population.calculatePopulationFitness(problem);
             iterator++;
         }
-        return population;
+        avg.println(j + "; " + population.getPopulationSize() + "_" + numberOfGenerations + "_" + px + "_" + pm + "_" + tour + "; " + bestIndividual.getFitness());
+        //save.close();
+        return bestIndividual;
     }
 
 }

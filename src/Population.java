@@ -81,6 +81,15 @@ public class Population {
         return individualArray.get(worstPosition);
     }
 
+    public float averageFitness() {
+        float average = 0;
+        for (int i = 0; i < populationSize; i++) {
+            average += individualArray.get(i).getFitness();
+        }
+        average = average / populationSize;
+        return average;
+    }
+
     public Individual tournamentSelection(int tournamentSize) {
         List<Individual> allIndividuals = new ArrayList<>(individualArray);
         List<Individual> drawnIndividuals = new ArrayList<>();
