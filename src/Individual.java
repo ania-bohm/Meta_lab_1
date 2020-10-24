@@ -13,7 +13,7 @@ public class Individual {
     }
 
     public void setRouteArray(Integer[] routeArray) {
-        this.routeArray = routeArray;
+        this.routeArray = Arrays.copyOf(routeArray, routeArray.length);
     }
 
     public float getFitness() {

@@ -73,12 +73,13 @@ public class EvolutionAlgorithm extends Algorithm {
 
         Population population = initializePopulation();
         population.calculatePopulationFitness(problem);
-        Individual bestIndividual = population.findBestIndividual();
+        Individual bestIndividual = new Individual(problem.getDimension());
+        bestIndividual.setRouteArray(population.findBestIndividual().getRouteArray());
+        bestIndividual.setFitness(population.findBestIndividual().getFitness());
+        File file = new File(j + "_" + saveFileName + ".csv");
+        file.createNewFile();
 
-//        File file = new File(j + "_" + saveFileName + ".csv");
-//        file.createNewFile();
-//
-//        PrintWriter save = new PrintWriter(j + "_" + saveFileName + ".csv");
+        PrintWriter save = new PrintWriter(j + "_" + saveFileName + ".csv");
 
         while (iterator != numberOfGenerations) {
             Population nextPopulation = new Population(population.getPopulationSize());
@@ -89,9 +90,6 @@ public class EvolutionAlgorithm extends Algorithm {
                 bestIndividual.setFitness(population.findBestIndividual().getFitness());
             }
 
-//            save.println(iterator + "; " + population.findBestIndividual().getFitness() + "; "
-//                    + population.averageFitness() + "; " + population.findWorstIndividual().getFitness() + "; "
-//                    + bestIndividual.getFitness());
 
             for (int i = 0; i < populationSize; i++) {
                 Individual firstParent;
@@ -131,10 +129,13 @@ public class EvolutionAlgorithm extends Algorithm {
             }
             population = nextPopulation;
             population.calculatePopulationFitness(problem);
+            save.println(iterator + "; " + population.findBestIndividual().getFitness() + "; "
+                    + population.averageFitness() + "; " + population.findWorstIndividual().getFitness() + "; "
+                    + bestIndividual.getFitness());
             iterator++;
         }
         avg.println(j + "; " + population.getPopulationSize() + "_" + numberOfGenerations + "_" + px + "_" + pm + "_" + tour + "; " + bestIndividual.getFitness());
-        //save.close();
+        save.close();
         return bestIndividual;
     }
 

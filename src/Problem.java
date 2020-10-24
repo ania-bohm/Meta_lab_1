@@ -88,19 +88,7 @@ public class Problem {
         }
         return locationArray;
     }
-
-//    public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray, List<Integer> excludedLocationArray) {
-//        float smallestDistance = Float.MAX_VALUE;
-//        int nearestLocation = -1;
-//        for (int i = 1; i < distanceMatrix.length; i++) {
-//            if (distanceMatrix[startLocation][i] <= smallestDistance && startLocation != i && availableLocationArray.contains(i) && !excludedLocationArray.contains(i)) {
-//                smallestDistance = distanceMatrix[startLocation][i];
-//                nearestLocation = i;
-//            }
-//        }
-//        return nearestLocation;
-//    }
-
+    
     public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray) {
         float smallestDistance = Float.MAX_VALUE;
         int nearestLocation = -1;
