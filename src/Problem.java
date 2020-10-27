@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Problem {
@@ -65,10 +66,12 @@ public class Problem {
         }
     }
 
-    public int[] generateEmptyLocationMatrix() {
-        int[] locationMatrix = new int[dimension - 1];
-        for (int i = 0; i < locationMatrix.length - 1; i++) {
-            locationMatrix[i] = 0;
+    public Integer[][] generateEmptyLocationMatrix() {
+        Integer[][] locationMatrix = new Integer[dimension][dimension];
+        for (int i = 0; i < locationMatrix.length; i++) {
+            for (int j = 0; j < locationMatrix.length; j++) {
+                locationMatrix[i][j] = 0;
+            }
         }
         return locationMatrix;
     }
@@ -88,7 +91,7 @@ public class Problem {
         }
         return locationArray;
     }
-    
+
     public int findNearestAvailableLocation(int startLocation, List<Integer> availableLocationArray) {
         float smallestDistance = Float.MAX_VALUE;
         int nearestLocation = -1;
@@ -124,6 +127,67 @@ public class Problem {
             }
         }
         return wholeDistance;
+    }
+
+    public Float[] evaluateTabuFitnessSwap(Individual individual, Integer[][] neighbours) {
+        Float[] neighboursFitness = new Float[neighbours.length];
+        for (int i = 0; i < neighboursFitness.length; i++) {
+            individual = individual.tabuSwap(neighbours[i][0], neighbours[i][1]);
+            neighboursFitness[i] = calculateFitness(individual);
+            individual = individual.tabuSwap(neighbours[i][0], neighbours[i][1]);
+        }
+        return neighboursFitness;
+    }
+
+    public Float[] evaluateTabuFitnessInversion(Individual individual, Integer[][] neighbours) {
+        Float[] neighboursFitness = new Float[neighbours.length];
+        for (int i = 0; i < neighboursFitness.length; i++) {
+            individual = individual.tabuInversion(neighbours[i][0], neighbours[i][1]);
+            neighboursFitness[i] = calculateFitness(individual);
+            individual = individual.tabuInversion(neighbours[i][0], neighbours[i][1]);
+        }
+        return neighboursFitness;
+    }
+
+    public Integer[][] generateNeighbourList(int n_size, List<List<Integer>> tabu_list) {
+        Integer[][] locationMatrix = generateEmptyLocationMatrix();
+        List<List<Integer>> availableLocationsList = new ArrayList<>();
+        int numberOfLocations = 0;
+        for (int i = 0; i < locationMatrix.length; i++) {
+            locationMatrix[0][i] = -1;
+            locationMatrix[i][0] = -1;
+        }
+        for (int i = 0; i < tabu_list.size(); i++) {
+            locationMatrix[tabu_list.get(i).get(0)][tabu_list.get(i).get(1)] = -1;
+            locationMatrix[tabu_list.get(i).get(1)][tabu_list.get(i).get(0)] = -1;
+        }
+        for (int i = 1; i < locationMatrix.length; i++) {
+            for (int j = 1; j < locationMatrix.length; j++) {
+                if (locationMatrix[i][j] != -1) {
+                    availableLocationsList.add(new ArrayList<>());
+                    availableLocationsList.get(availableLocationsList.size() - 1).add(i);
+                    availableLocationsList.get(availableLocationsList.size() - 1).add(j);
+                    locationMatrix[j][i] = -1;
+                }
+            }
+        }
+        Collections.shuffle(availableLocationsList);
+        numberOfLocations = availableLocationsList.size();
+        Integer[][] neighbourList;
+        if (numberOfLocations < n_size) {
+            neighbourList = new Integer[numberOfLocations][2];
+            for (int i = 0; i < numberOfLocations; i++) {
+                neighbourList[i][0] = availableLocationsList.get(i).get(0);
+                neighbourList[i][1] = availableLocationsList.get(i).get(1);
+            }
+        } else {
+            neighbourList = new Integer[n_size][2];
+            for (int i = 0; i < n_size; i++) {
+                neighbourList[i][0] = availableLocationsList.get(i).get(0);
+                neighbourList[i][1] = availableLocationsList.get(i).get(1);
+            }
+        }
+        return neighbourList;
     }
 
 }

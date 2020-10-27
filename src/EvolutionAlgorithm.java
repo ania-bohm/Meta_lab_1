@@ -9,7 +9,7 @@ public class EvolutionAlgorithm extends Algorithm {
     private float px;
     private float pm;
     private int tour;
-    Problem problem;
+    public Problem problem;
 
     public EvolutionAlgorithm(int populationSize, int numberOfGenerations, float px, float pm, int tour, Problem problem) {
         this.populationSize = populationSize;

@@ -190,4 +190,54 @@ public class Individual {
         }
         return this;
     }
+
+    public Individual tabuSwap(int firstLocation, int secondLocation) {
+        int firstLocationPosition = -1;
+        int secondLocationPosition = -1;
+        for (int i = 0; i < routeArray.length; i++) {
+            if (routeArray[i] == firstLocation) {
+                firstLocationPosition = i;
+            } else if (routeArray[i] == secondLocation) {
+                secondLocationPosition = i;
+            }
+        }
+        if (firstLocationPosition != -1 && secondLocationPosition != -1) {
+            routeArray[firstLocationPosition] = secondLocation;
+            routeArray[secondLocationPosition] = firstLocation;
+        }
+        return this;
+    }
+
+    public Individual tabuInversion(int firstLocation, int secondLocation) {
+        int temp = 0;
+        int firstLocationPosition = -1;
+        int secondLocationPosition = -1;
+
+
+        for (int i = 0; i < routeArray.length; i++) {
+            if (routeArray[i] == firstLocation) {
+                firstLocationPosition = i;
+            } else if (routeArray[i] == secondLocation) {
+                secondLocationPosition = i;
+            }
+        }
+        if (firstLocationPosition > secondLocationPosition) {
+            temp = firstLocationPosition;
+            firstLocationPosition = secondLocationPosition;
+            secondLocationPosition = temp;
+        }
+
+        if (firstLocationPosition != -1 && secondLocationPosition != -1) {
+            int range = secondLocationPosition - firstLocationPosition + 1;
+            Integer[] tempArray = new Integer[range];
+            for (int i = firstLocationPosition; i <= secondLocationPosition; i++) {
+                tempArray[i - firstLocationPosition] = routeArray[i];
+            }
+            for (int i = range; i > 0; i--) {
+                routeArray[firstLocationPosition] = tempArray[i - 1];
+                firstLocationPosition++;
+            }
+        }
+        return this;
+    }
 }
