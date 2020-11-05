@@ -90,13 +90,13 @@ public class EvolutionAlgorithm extends Algorithm {
                 bestIndividual.setFitness(population.findBestIndividual().getFitness());
             }
 
-
             for (int i = 0; i < populationSize; i++) {
                 Individual firstParent;
                 Individual secondParent;
                 Individual child;
                 float probability;
 
+                // selection
                 if (selectionType == 1) {
                     firstParent = population.tournamentSelection(tour);
                     secondParent = population.tournamentSelection(tour);
@@ -105,6 +105,7 @@ public class EvolutionAlgorithm extends Algorithm {
                     secondParent = population.rouletteSelection();
                 }
 
+                // crossover
                 probability = random.nextFloat();
                 if (probability < px) {
                     if (crossoverType == 1) {
@@ -116,6 +117,7 @@ public class EvolutionAlgorithm extends Algorithm {
                     child = firstParent;
                 }
 
+                // mutation
                 probability = random.nextFloat();
                 if (mutationType == 1) {
                     child = child.swap(pm);
@@ -129,11 +131,14 @@ public class EvolutionAlgorithm extends Algorithm {
             }
             population = nextPopulation;
             population.calculatePopulationFitness(problem);
+
+            // logging current fitnesses
             save.println(iterator + "; " + population.findBestIndividual().getFitness() + "; "
                     + population.averageFitness() + "; " + population.findWorstIndividual().getFitness() + "; "
                     + bestIndividual.getFitness());
             iterator++;
         }
+        // logging best fitness
         avg.println(j + "; " + population.getPopulationSize() + "_" + numberOfGenerations + "_" + px + "_" + pm + "_" + tour + "; " + bestIndividual.getFitness());
         save.close();
         return bestIndividual;

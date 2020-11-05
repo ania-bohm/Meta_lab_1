@@ -190,4 +190,41 @@ public class Problem {
         return neighbourList;
     }
 
+    public Integer[][] generateNeighbourListSA(int n_size) {
+        Integer[][] locationMatrix = generateEmptyLocationMatrix();
+        List<List<Integer>> availableLocationsList = new ArrayList<>();
+        int numberOfLocations = 0;
+        for (int i = 0; i < locationMatrix.length; i++) {
+            locationMatrix[0][i] = -1;
+            locationMatrix[i][0] = -1;
+        }
+        for (int i = 1; i < locationMatrix.length; i++) {
+            for (int j = 1; j < locationMatrix.length; j++) {
+                if (locationMatrix[i][j] != -1) {
+                    availableLocationsList.add(new ArrayList<>());
+                    availableLocationsList.get(availableLocationsList.size() - 1).add(i);
+                    availableLocationsList.get(availableLocationsList.size() - 1).add(j);
+                    locationMatrix[j][i] = -1;
+                }
+            }
+        }
+        Collections.shuffle(availableLocationsList);
+        numberOfLocations = availableLocationsList.size();
+        Integer[][] neighbourList;
+        if (numberOfLocations < n_size) {
+            neighbourList = new Integer[numberOfLocations][2];
+            for (int i = 0; i < numberOfLocations; i++) {
+                neighbourList[i][0] = availableLocationsList.get(i).get(0);
+                neighbourList[i][1] = availableLocationsList.get(i).get(1);
+            }
+        } else {
+            neighbourList = new Integer[n_size][2];
+            for (int i = 0; i < n_size; i++) {
+                neighbourList[i][0] = availableLocationsList.get(i).get(0);
+                neighbourList[i][1] = availableLocationsList.get(i).get(1);
+            }
+        }
+        return neighbourList;
+    }
+
 }
