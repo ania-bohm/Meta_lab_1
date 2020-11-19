@@ -22,6 +22,185 @@ public class Automat {
         File file;
         PrintWriter average;
 
+
+//        file = new File(testFileName + "_average_popsizexgen.csv");
+//        file.createNewFile();
+//        average = new PrintWriter(testFileName + "_average_popsizexgen.csv");
+//
+//        for (int i = 100; i <= 1000; i += 50) {
+//            for (int j = 100; j <= 1000; j += 50) {
+//                System.out.println("Pop, gen, tour: " + i + ", " + j + ", " + ((int) (0.2f * i)));
+//                EvolutionAlgorithm ea = new EvolutionAlgorithm(i, j, 0.7f, 0.1f, ((int) (0.2f * i)), problem);
+//                for (int k = 0; k < repetitions; k++) {
+//                    Individual bestIndividual = ea.startEvolution(1, 1, 2, i + "_" + j + "_0.7f_0.1f_" + ((int) (0.2 * i)), average, k);
+//                    System.out.println(k);
+//                    //bestIndividual.printRouteArray();
+//                    //System.out.println(bestIndividual.getFitness());
+//                }
+//            }
+//        }
+//        average.close();
+
+
+//        file = new File(testFileName + "_average_tour.csv");
+//        file.createNewFile();
+//        average = new PrintWriter(testFileName + "_average_tour.csv");
+//
+//        for (int j = 5; j <= 100; j += 5) {
+//            EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.7f, 0.1f, (int) (j * 450 / 100), problem);
+//            System.out.println("Tour: " + (int) (j * 450 / 100));
+//            for (int k = 0; k < 10; k++) {
+//                Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.7f_0.1f_" + (int) (j * 450 / 100), average, k);
+//                System.out.println(k);
+//                //bestIndividual.printRouteArray();
+//                //System.out.println(bestIndividual.getFitness());
+//            }
+//        }
+//        average.close();
+
+//        file = new File(testFileName + "_average_zoomed_tour.csv");
+//        file.createNewFile();
+//        average = new PrintWriter(testFileName + "_average_zoomed_tour.csv");
+//
+//        for (int j = 35; j <= 65; j += 1) {
+//            EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.7f, 0.1f, (int) (j * 450 / 100), problem);
+//            System.out.println("Tour: " + j);
+//            for (int k = 0; k < 10; k++) {
+//                Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.7f_0.1f_" + (int) (j * 450 / 100), average, k);
+//                System.out.println(k);
+//                //bestIndividual.printRouteArray();
+//                //System.out.println(bestIndividual.getFitness());
+//            }
+//        }
+//        average.close();
+
+        // kolejne Toury = {139, 99, 90, 175, 112, 202, 229}
+        // kolejne Px    = {0,55 - 0,9; 0,55 - 1; 0,5 - 0,95; 0,55 - 0,95; 0,5 - 0,9; 0,65 - 1; 0,45 - 0,9}
+        // wybrane Px    = {0.71, 0.75, 0.75, 0.65, 0.69, 0.78, 0.77}
+        switch (testFileName) {
+            case "A-n32-k5":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.71f, i, 139, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.71f_" + i + "_139", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n37-k6":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.75f, i, 99, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.75f_" + i + "_99", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n39-k5":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.75f, i, 90, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.75f_" + i + "_90", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n45-k6":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.65f, i, 175, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.65f_" + i + "_175", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n48-k7":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.69f, i, 112, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.69f_" + i + "_112", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n54-k7":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.78f, i, 202, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.78f_" + i + "_202", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n60-k9":
+                file = new File(testFileName + "_average_pm.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_pm.csv");
+
+                for (float i = 0.01f; i <= 0.36f; i += 0.01f) {
+                    EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, 0.77f, i, 229, problem);
+                    System.out.println("Px: " + i);
+                    for (int k = 0; k < 10; k++) {
+                        Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_0.77f_" + i + "_229", average, k);
+                        System.out.println(k);
+                    }
+                }
+                average.close();
+                break;
+        }
+//        file = new File(testFileName + "_average_zoomed_pxxtour.csv");
+//        file.createNewFile();
+//        average = new PrintWriter(testFileName + "_average_zoomed_pxxtour.csv");
+//
+//        for (float i = 0.55f; i <= 0.91f; i += 0.01f) {
+//            EvolutionAlgorithm ea = new EvolutionAlgorithm(450, 950, i, 0.1f, 139, problem);
+//            System.out.println("Px: " + i);
+//            for (int k = 0; k < 10; k++) {
+//                Individual bestIndividual = ea.startEvolution(1, 1, 2, "450_950_" + i + "_0.1f_139", average, k);
+//                System.out.println(k);
+//            }
+//        }
+//        average.close();
+
+
+        //--------------------------------------------------------------------------------------------------------------------------------------
+
         //selection: 1 - tour, 2 - roulette, crossover: 1 - ox, 2 - pmx, mutation: 1 - swap, 2 - inversion
 
 //        file = new File("average_ox_tournament_inversion.csv");
@@ -154,37 +333,37 @@ public class Automat {
 //            }
 //        }
 //        average.close();
-        file = new File("1x_ox_roulette_inversion.csv");
-        file.createNewFile();
-        average = new PrintWriter("1x_ox_roulette_inversion.csv");
-
-        // gen - {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000} - orderedCrossover, tournament and inversion
-
-        for (int i = 0; i < repetitions; i++) {
-            EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.7f, 0.1f, 5, problem);
-            Individual bestIndividual = ea.startEvolution(2, 1, 2, "OneRunRoulette", average, i);
-            //System.out.println("gen");
-            //bestIndividual.printRouteArray();
-            //System.out.println(bestIndividual.getFitness());
-        }
-
-
-        average.close();
-        file = new File("1x_ox_tournament_inversion.csv");
-        file.createNewFile();
-        average = new PrintWriter("1x_ox_tournament_inversion.csv");
-
-        // gen - {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000} - orderedCrossover, tournament and inversion
-
-        for (int i = 0; i < repetitions; i++) {
-            EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.7f, 0.1f, 5, problem);
-            Individual bestIndividual = ea.startEvolution(1, 1, 2, "OneRunTournament", average, i);
-            //System.out.println("gen");
-            //bestIndividual.printRouteArray();
-            //System.out.println(bestIndividual.getFitness());
-        }
-
-        average.close();
+//        file = new File("1x_ox_roulette_inversion.csv");
+//        file.createNewFile();
+//        average = new PrintWriter("1x_ox_roulette_inversion.csv");
+//
+//        // gen - {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000} - orderedCrossover, tournament and inversion
+//
+//        for (int i = 0; i < repetitions; i++) {
+//            EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.7f, 0.1f, 5, problem);
+//            Individual bestIndividual = ea.startEvolution(2, 1, 2, "OneRunRoulette", average, i);
+//            //System.out.println("gen");
+//            //bestIndividual.printRouteArray();
+//            //System.out.println(bestIndividual.getFitness());
+//        }
+//
+//
+//        average.close();
+//        file = new File("1x_ox_tournament_inversion.csv");
+//        file.createNewFile();
+//        average = new PrintWriter("1x_ox_tournament_inversion.csv");
+//
+//        // gen - {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000} - orderedCrossover, tournament and inversion
+//
+//        for (int i = 0; i < repetitions; i++) {
+//            EvolutionAlgorithm ea = new EvolutionAlgorithm(100, 100, 0.7f, 0.1f, 5, problem);
+//            Individual bestIndividual = ea.startEvolution(1, 1, 2, "OneRunTournament", average, i);
+//            //System.out.println("gen");
+//            //bestIndividual.printRouteArray();
+//            //System.out.println(bestIndividual.getFitness());
+//        }
+//
+//        average.close();
     }
 
     public void runTSResearch(String testFileName) throws IOException {
@@ -198,6 +377,130 @@ public class Automat {
         problem.calculateDistance(loader.getLoadedCoordXArray(), loader.getLoadedCoordYArray());
         File file;
         PrintWriter average;
+
+
+//        file = new File(testFileName + "_average_nsize.csv");
+//        file.createNewFile();
+//        average = new PrintWriter(testFileName + "_average_nsize.csv");
+//        int range = (problem.getDimension() * (problem.getDimension() - 1)) / 2 - 50;
+//        System.out.println("Range: " + range);
+//        // nsize - 10 - dim*(dim - 1)/2 - 50
+//        for (int j = 10; j <= range; j++) {
+//            System.out.println("N size: " + j);
+//            for (int i = 0; i < repetitions; i++) {
+//                System.out.println(i);
+//                TabuSearch ts = new TabuSearch(1000, j, 100, problem);
+//                Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+//            }
+//        }
+//        average.close();
+
+        switch (testFileName) {
+            case "A-n32-k5":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                for (int j = 1; j <= 16; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 32, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n37-k6":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 12; j <= 19; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 37, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n39-k5":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 13; j <= 20; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 39, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n45-k6":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 1; j <= 23; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 45, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n48-k7":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 1; j <= 24; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 48, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n54-k7":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 18; j <= 41; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 54, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+            case "A-n60-k9":
+                file = new File(testFileName + "_average_tabusize.csv");
+                file.createNewFile();
+                average = new PrintWriter(testFileName + "_average_tabusize.csv");
+                // nsize - 10 - dim*(dim - 1)/2 - 50
+                for (int j = 20; j <= 30; j++) {
+                    System.out.println("Tabu size: " + j);
+                    for (int i = 0; i < repetitions; i++) {
+                        System.out.println(i);
+                        TabuSearch ts = new TabuSearch(10000, 60, j, problem);
+                        Individual bestIndividual = ts.startSearch(1, 1, "greedy_inversion_nsize", average, i);
+                    }
+                }
+                average.close();
+                break;
+        }
 
 //        file = new File("average_iter_greedy_inversion.csv");
 //        file.createNewFile();
@@ -238,18 +541,18 @@ public class Automat {
 //        }
 //        average.close();
 //
-        file = new File("1x_greedy_inversion.csv");
-        file.createNewFile();
-        average = new PrintWriter("1x_greedy_inversion.csv");
-
-        // 10x greedy init and inversion, iter=1000, n_size=10, tabu_size=100
-
-        for (int i = 0; i < repetitions; i++) {
-            TabuSearch ts = new TabuSearch(1000, 10, 100, problem);
-            Individual bestIndividual = ts.startSearch(1, 1, "OneRun_greedy_inversion", average, i);
-        }
-
-        average.close();
+//        file = new File("1x_greedy_inversion.csv");
+//        file.createNewFile();
+//        average = new PrintWriter("1x_greedy_inversion.csv");
+//
+//        // 10x greedy init and inversion, iter=1000, n_size=10, tabu_size=100
+//
+//        for (int i = 0; i < repetitions; i++) {
+//            TabuSearch ts = new TabuSearch(1000, 10, 100, problem);
+//            Individual bestIndividual = ts.startSearch(1, 1, "OneRun_greedy_inversion", average, i);
+//        }
+//
+//        average.close();
 //
 //        file = new File("1x_random_inversion.csv");
 //        file.createNewFile();
@@ -264,18 +567,18 @@ public class Automat {
 //
 //        average.close();
 //
-        file = new File("1x_greedy_swap.csv");
-        file.createNewFile();
-        average = new PrintWriter("1x_greedy_swap.csv");
-
-        // 10x greedy init and swap, iter=1000, n_size=10, tabu_size=100
-
-        for (int i = 0; i < repetitions; i++) {
-            TabuSearch ts = new TabuSearch(1000, 10, 100, problem);
-            Individual bestIndividual = ts.startSearch(1, 0, "OneRun_greedy_swap", average, i);
-        }
-
-        average.close();
+//        file = new File("1x_greedy_swap.csv");
+//        file.createNewFile();
+//        average = new PrintWriter("1x_greedy_swap.csv");
+//
+//        // 10x greedy init and swap, iter=1000, n_size=10, tabu_size=100
+//
+//        for (int i = 0; i < repetitions; i++) {
+//            TabuSearch ts = new TabuSearch(1000, 10, 100, problem);
+//            Individual bestIndividual = ts.startSearch(1, 0, "OneRun_greedy_swap", average, i);
+//        }
+//
+//        average.close();
 
     }
 

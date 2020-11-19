@@ -93,7 +93,7 @@ public class EvolutionAlgorithm extends Algorithm {
             for (int i = 0; i < populationSize; i++) {
                 Individual firstParent;
                 Individual secondParent;
-                Individual child;
+                Individual child = new Individual(problem.getDimension());
                 float probability;
 
                 // selection
@@ -105,31 +105,32 @@ public class EvolutionAlgorithm extends Algorithm {
                     secondParent = population.rouletteSelection();
                 }
 
-                // crossover
+                //crossover
                 probability = random.nextFloat();
                 if (probability < px) {
                     if (crossoverType == 1) {
-                        child = firstParent.orderedCrossover(secondParent);
+                        child.setRouteArray(firstParent.orderedCrossover(secondParent).getRouteArray());
                     } else {
-                        child = firstParent.partiallyMatchedCrossover(secondParent);
+                        child.setRouteArray(firstParent.partiallyMatchedCrossover(secondParent).getRouteArray());
                     }
                 } else {
-                    child = firstParent;
+                    child.setRouteArray(firstParent.getRouteArray());
                 }
 
                 // mutation
                 probability = random.nextFloat();
                 if (mutationType == 1) {
-                    child = child.swap(pm);
+                    //child = child.swap(pm);
+                    child.setRouteArray(firstParent.swap(pm).getRouteArray());
                 } else {
                     if (probability < pm) {
-                        child = child.inversion();
+                        //child = child.inversion();
+                        child.setRouteArray(firstParent.inversion().getRouteArray());
                     }
                 }
-
                 nextPopulation.getIndividualArray().add(child);
             }
-            population = nextPopulation;
+            population.setIndividualArray(nextPopulation.getIndividualArray());
             population.calculatePopulationFitness(problem);
 
             // logging current fitnesses

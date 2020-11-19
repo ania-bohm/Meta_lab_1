@@ -165,8 +165,7 @@ public class SimulatedAnnealing extends Algorithm {
                     currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
                 }
             }
-
-            save.println(currentIter + "; " + neighbourFitness[bestFitnessPosition] + ";" + neighbourFitness[worstFitnessPosition] + ";" + currentIndividual.getFitness() + ";" + globalBestIndividual.getFitness());
+            save.println(currentIter + "; " + currentIndividual.getFitness() + ";" + neighbourFitness[bestFitnessPosition] + ";" + neighbourFitness[worstFitnessPosition] + ";" + globalBestIndividual.getFitness());
             if (Temp * alpha >= temp_finish) {
                 Temp = Temp * alpha;
             }

@@ -77,6 +77,7 @@ public class TabuSearch extends Algorithm {
     //initialization: 0 - random, 1 - greedy, mutation: 0 - swap, 1 - inversion
     public Individual startSearch(int initType, int mutationType, String saveFileName, PrintWriter avg, int j) throws IOException {
         Individual currentIndividual = new Individual(problem.getDimension());
+        Individual globalBestIndividual = new Individual(problem.getDimension());
         Individual copiedCurrentIndividual = new Individual(problem.getDimension());
         // from - to
         Integer[][] neighbours;
@@ -84,6 +85,7 @@ public class TabuSearch extends Algorithm {
         Float[] neighbourFitness;
         int currentIter = 0;
         int bestFitnessPosition = -1;
+        int worstFitnessPosition = -1;
 
         File file = new File(j + "_" + saveFileName + ".csv");
         file.createNewFile();
@@ -96,6 +98,8 @@ public class TabuSearch extends Algorithm {
             currentIndividual = GreedyAlgorithm.generateGreedyIndividual(problem, 1);
         }
         currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
+        globalBestIndividual.setRouteArray(currentIndividual.getRouteArray());
+        globalBestIndividual.setFitness(currentIndividual.getFitness());
         if (mutationType == 0) {
             while (currentIter < iter) {
                 copiedCurrentIndividual.setRouteArray(currentIndividual.getRouteArray());
@@ -106,13 +110,15 @@ public class TabuSearch extends Algorithm {
                 neighbourFitness = problem.evaluateTabuFitnessSwap(copiedCurrentIndividual, neighbours);
                 // choosing best fitness
                 bestFitnessPosition = bestNeighborPosition(neighbourFitness);
+                worstFitnessPosition = worstNeighborPosition(neighbourFitness);
                 // checking if bestFitness < currentIndividual.fitness
                 // yes - continue, no - break
-
-                if (neighbourFitness[bestFitnessPosition] < currentIndividual.getFitness()) {
+                currentIndividual = currentIndividual.tabuSwap(neighbours[bestFitnessPosition][0], neighbours[bestFitnessPosition][1]);
+                currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
+                if (currentIndividual.getFitness() < globalBestIndividual.getFitness()) {
                     // setting currentIndividual to the best one found
-                    currentIndividual = currentIndividual.tabuSwap(neighbours[bestFitnessPosition][0], neighbours[bestFitnessPosition][1]);
-                    currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
+                    globalBestIndividual.setRouteArray(currentIndividual.getRouteArray());
+                    globalBestIndividual.setFitness(currentIndividual.getFitness());
                     // checking tabu_list overflow and adding neighbour to tabu_list
                     if (tabu_list.size() == n_size) {
                         tabu_list.remove(0);
@@ -121,8 +127,8 @@ public class TabuSearch extends Algorithm {
                     tabu_list.get(tabu_list.size() - 1).add(neighbours[bestFitnessPosition][0]);
                     tabu_list.get(tabu_list.size() - 1).add(neighbours[bestFitnessPosition][1]);
                 }
-                save.println(currentIter + "; " + neighbourFitness[bestFitnessPosition] + ";" + currentIndividual.getFitness());
-                // currentIter++
+                save.println(currentIter + "; " + currentIndividual.getFitness() + ";" + neighbourFitness[worstFitnessPosition]
+                        + ";" + globalBestIndividual.getFitness());
                 currentIter++;
             }
         } else {
@@ -135,13 +141,15 @@ public class TabuSearch extends Algorithm {
                 neighbourFitness = problem.evaluateTabuFitnessInversion(copiedCurrentIndividual, neighbours);
                 // choosing best fitness
                 bestFitnessPosition = bestNeighborPosition(neighbourFitness);
+                worstFitnessPosition = worstNeighborPosition(neighbourFitness);
                 // checking if bestFitness < currentIndividual.fitness
                 // yes - continue, no - break
-
-                if (neighbourFitness[bestFitnessPosition] < currentIndividual.getFitness()) {
+                currentIndividual = currentIndividual.tabuInversion(neighbours[bestFitnessPosition][0], neighbours[bestFitnessPosition][1]);
+                currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
+                if (currentIndividual.getFitness() < globalBestIndividual.getFitness()) {
                     // setting currentIndividual to the best one found
-                    currentIndividual = currentIndividual.tabuInversion(neighbours[bestFitnessPosition][0], neighbours[bestFitnessPosition][1]);
-                    currentIndividual.setFitness(problem.calculateFitness(currentIndividual));
+                    globalBestIndividual.setRouteArray(currentIndividual.getRouteArray());
+                    globalBestIndividual.setFitness(currentIndividual.getFitness());
                     // checking tabu_list overflow and adding neighbour to tabu_list
                     if (tabu_list.size() == n_size) {
                         tabu_list.remove(0);
@@ -150,13 +158,26 @@ public class TabuSearch extends Algorithm {
                     tabu_list.get(tabu_list.size() - 1).add(neighbours[bestFitnessPosition][0]);
                     tabu_list.get(tabu_list.size() - 1).add(neighbours[bestFitnessPosition][1]);
                 }
-                save.println(currentIter + "; " + neighbourFitness[bestFitnessPosition] + ";" + currentIndividual.getFitness());
+                save.println(currentIter + "; " + currentIndividual.getFitness() + ";" + neighbourFitness[worstFitnessPosition]
+                        + ";" + globalBestIndividual.getFitness());
                 // currentIter++
                 currentIter++;
             }
         }
-        avg.println(j + "; " + iter + "_" + n_size + "_" + tabu_size + "; " + currentIndividual.getFitness());
+        avg.println(j + "; " + iter + "_" + n_size + "_" + tabu_size + "; " + globalBestIndividual.getFitness());
         save.close();
         return currentIndividual;
+    }
+
+    public int worstNeighborPosition(Float[] neighbourFitness) {
+        int worstPosition = -1;
+        float worstFitness = Float.MIN_VALUE;
+        for (int i = 0; i < neighbourFitness.length; i++) {
+            if (neighbourFitness[i] > worstFitness) {
+                worstFitness = neighbourFitness[i];
+                worstPosition = i;
+            }
+        }
+        return worstPosition;
     }
 }
